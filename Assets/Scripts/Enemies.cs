@@ -18,7 +18,7 @@ public class Enemy : MonoBehaviour
     private Enemy_change enemyChangeComponent;
     private float distance;
     private bool isMoving = false;
-    private int agroDistance = 30;
+    private int agroDistance = 25;
     private int minDistance = 5;
 
     private void Start()

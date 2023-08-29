@@ -26,6 +26,11 @@ public class Player_change_animations : MonoBehaviour
         skeletonAnimation.AnimationState.SetAnimation(0, runAnimation, true);
     }
 
+    private void Start()
+    {
+        //skeletonAnimation.AnimationState.Complete += AnimationComplete;
+    }
+
     private void Update()
     {
         if (dieAnimationTrack != null)
@@ -79,14 +84,13 @@ public class Player_change_animations : MonoBehaviour
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
+        isMoving = false; // ќстановить движение при анимации выстрела
         if (hit.collider == null)
         {
-            isMoving = false; // ќстановить движение при анимации выстрела
             PlayMissAnimation();
         }
         else if (hit.collider.CompareTag("Enemy"))
         {
-            isMoving = false; // ќстановить движение при анимации выстрела
             PlayHitAnimation();
         }
     }
@@ -94,18 +98,23 @@ public class Player_change_animations : MonoBehaviour
     private void PlayHitAnimation()
     {
         skeletonAnimation.AnimationState.SetAnimation(0, attackAnimation, false);
-        skeletonAnimation.AnimationState.Complete += AnimationComplete;
+        AnimationComplete(2.0f);
     }
 
     private void PlayMissAnimation()
     {
         skeletonAnimation.AnimationState.SetAnimation(0, missAnimation, false);
-        skeletonAnimation.AnimationState.Complete += AnimationComplete;
+        AnimationComplete(2.733f);
     }
 
-    private void AnimationComplete(TrackEntry trackEntry)
+    private void AnimationComplete(float time)
     {
-        // ¬осстановите анимацию бега
+        StartCoroutine(StopCoroutine(time));
+    }
+
+    private IEnumerator StopCoroutine(float delay)
+    {
+        yield return new WaitForSeconds(delay);
         skeletonAnimation.AnimationState.SetAnimation(0, runAnimation, true);
         isMoving = true;
         isAnimating = false;
