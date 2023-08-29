@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Crosshair : MonoBehaviour
 {
-    public Texture2D cursorTexture; // Назначьте спрайт для курсора в инспекторе
-    public Vector2 hotspot = Vector2.zero; // При необходимости, настройте точку клика
+    public Texture2D cursorTexture;
+    public Vector2 hotspot = Vector2.zero;
 
     private void Start()
     {
